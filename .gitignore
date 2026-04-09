@@ -1,0 +1,17 @@
+# MNIST dataset (downloaded automatically by torchvision)
+data/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.env
+.venv
+venv/
+
+# VS Code
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db

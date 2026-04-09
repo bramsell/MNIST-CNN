@@ -1,0 +1,262 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #111;
+  color: #e8e8e8;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.layout {
+  display: flex;
+  flex-direction: row;        /* always side-by-side */
+  gap: 4vw;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 16px;
+  width: 100%;
+}
+
+/* ── Panels ─────────────────────────────────────────────────────────────── */
+.panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.panel-title {
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #888;
+}
+
+/* ── Draw panel takes up half the viewport width, result takes the other half */
+.draw-panel  { flex: 1 1 0; min-width: 0; }
+.result-panel { flex: 1 1 0; min-width: 0; }
+
+/* ── Canvas ─────────────────────────────────────────────────────────────── */
+#canvas {
+  background: #000;
+  border-radius: 12px;
+  border: 2px solid #2a2a2a;
+  cursor: crosshair;
+  touch-action: none;   /* prevent scroll while drawing */
+  box-shadow: 0 0 40px rgba(0,0,0,0.6);
+  /* scale to fill the draw panel while keeping it square */
+  width: 100%;
+  max-width: 560px;
+  height: auto;
+  aspect-ratio: 1 / 1;
+}
+
+/* ── Controls ───────────────────────────────────────────────────────────── */
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+button {
+  padding: 10px 28px;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+button:active { opacity: 0.75; }
+
+#btn-clear {
+  background: #2a2a2a;
+  color: #bbb;
+}
+
+#btn-predict {
+  background: #3a7bd5;
+  color: #fff;
+}
+
+.toggle-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: #888;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* ── Big digit display ──────────────────────────────────────────────────── */
+.big-digit {
+  font-size: clamp(3rem, 15vw, 10rem);
+  font-weight: 800;
+  line-height: 1;
+  color: #fff;
+  min-width: 140px;
+  text-align: center;
+  transition: color 0.2s;
+}
+
+.big-digit.pending { color: #444; }
+
+.confidence-label {
+  font-size: 1rem;
+  color: #888;
+  min-height: 1.4em;
+}
+
+/* ── Confidence bars ────────────────────────────────────────────────────── */
+.bars {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+  max-width: 260px;
+}
+
+.bar-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.bar-label {
+  width: 18px;
+  text-align: right;
+  font-size: 0.9rem;
+  color: #999;
+  font-weight: 600;
+}
+
+.bar-track {
+  flex: 1;
+  height: 10px;
+  background: #222;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.bar-fill {
+  height: 100%;
+  border-radius: 5px;
+  background: #3a7bd5;
+  transition: width 0.25s ease;
+  width: 0%;
+}
+
+.bar-fill.top { background: #5af; }
+
+.bar-pct {
+  width: 44px;
+  font-size: 0.78rem;
+  color: #666;
+  text-align: right;
+}
+
+/* ── Activation visualiser ──────────────────────────────────────────────── */
+.act-section {
+  width: 100%;
+  padding: 24px 16px 40px;
+  border-top: 1px solid #222;
+}
+
+.act-title {
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #888;
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.act-layers {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+/* Each layer block fades in on reveal */
+.act-layer-block {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.act-hidden  { opacity: 0; transform: translateY(8px); }
+.act-visible { opacity: 1; transform: translateY(0); }
+
+.act-layer-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #555;
+}
+
+/* Grid of feature map tiles */
+.act-map-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+}
+
+.act-map-canvas {
+  /* Each tile is a tiny 28x28 (or 14x14 / 7x7) canvas scaled up */
+  width: 40px;
+  height: 40px;
+  image-rendering: pixelated;   /* keep the blocky pixel look */
+  border-radius: 3px;
+  background: #000;
+}
+
+/* FC layer bars */
+.act-fc-bars {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+}
+
+.act-fc-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 140px;
+}
+
+.act-fc-label {
+  font-size: 0.7rem;
+  color: #555;
+  width: 20px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.act-fc-track {
+  flex: 1;
+  height: 6px;
+  background: #222;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.act-fc-fill {
+  height: 100%;
+  border-radius: 3px;
+  background: #3a7bd5;
+}

@@ -1,0 +1,36 @@
+# ─── Model Architecture ───────────────────────────────────────────────────────
+model:
+  kernel_size: 3          # sliding filter size (e.g. 3 = 3x3 conv window)
+  conv1_out_channels: 32  # feature maps after first conv layer
+  conv2_out_channels: 64  # feature maps after second conv layer
+  fc1_out_features: 128   # neurons in the first fully-connected layer
+  dropout: 0.25           # dropout probability before the output layer
+
+# ─── Training ─────────────────────────────────────────────────────────────────
+training:
+  learning_rate: 0.001
+  batch_size: 64
+  epochs: 10
+  optimizer: adam         # only adam supported in train.py currently
+  seed: 42
+
+# ─── Data ─────────────────────────────────────────────────────────────────────
+data:
+  dir: data/              # MNIST will be downloaded here automatically
+  mean: 0.1307            # MNIST global pixel mean
+  std: 0.3081             # MNIST global pixel std
+
+# ─── Checkpoints ──────────────────────────────────────────────────────────────
+checkpoints:
+  dir: checkpoints/
+  filename: best_model.pth
+
+# ─── Visualization ────────────────────────────────────────────────────────────
+visualization:
+  capture_activations: true   # include per-layer activation maps in /predict response
+  layer_delay_ms: 500         # ms between layer animations in the frontend
+
+# ─── Server (Phase 2) ─────────────────────────────────────────────────────────
+server:
+  host: "0.0.0.0"
+  port: 5000

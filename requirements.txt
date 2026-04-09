@@ -1,0 +1,18 @@
+# PyTorch must be installed separately — choose the right build for your hardware:
+# https://pytorch.org/get-started/locally/
+#
+#   CUDA 12.4 (tested: Python 3.13, RTX 4060, driver CUDA 13.1):
+#     pip install torch torchvision --index-url https://download.pytorch.org/whl/cu124
+#
+#   CPU only:
+#     pip install torch torchvision
+#
+# After installing PyTorch, install the rest:
+#   pip install -r requirements.txt
+
+torchvision
+pyyaml
+tqdm
+flask
+flask-cors
+pillow

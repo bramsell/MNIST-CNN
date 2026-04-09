@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MNIST Digit Recognizer</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="layout">
+
+    <!-- Left: drawing pad -->
+    <div class="panel draw-panel">
+      <h2 class="panel-title">Draw a digit</h2>
+      <canvas id="canvas" width="560" height="560"></canvas>
+      <div class="controls">
+        <button id="btn-clear">Clear</button>
+        <label class="toggle-label">
+          <input type="checkbox" id="auto-predict" checked />
+          Auto-predict on lift
+        </label>
+        <button id="btn-predict">Predict</button>
+      </div>
+    </div>
+
+    <!-- Right: results -->
+    <div class="panel result-panel">
+      <h2 class="panel-title">Prediction</h2>
+
+      <div class="big-digit" id="big-digit">—</div>
+      <div class="confidence-label" id="confidence-label"></div>
+
+      <div class="bars" id="bars">
+        <!-- one bar per digit, built by JS -->
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Activation visualiser — populated by JS after each prediction -->
+  <div class="act-section" id="act-section" hidden>
+    <h2 class="act-title">Layer Activations</h2>
+    <div class="act-layers" id="act-layers"></div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
